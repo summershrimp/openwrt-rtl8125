@@ -8,7 +8,7 @@ Realtek RTL8125 series 2.5GBE pcie network card.
 
 ## Usage
 ```
-echo 'src-git rtl8125 https://github.com/summershrimp/openwrt-r8125.git;master' >> feeds.conf.default
+echo 'src-git rtl8125 https://github.com/summershrimp/openwrt-rtl8125.git;master' >> feeds.conf.default
 ./script/feeds update -a
 ./script/feeds install -a
 ```
