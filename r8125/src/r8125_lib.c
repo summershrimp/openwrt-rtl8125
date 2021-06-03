@@ -4,7 +4,7 @@
 # r8168 is the Linux device driver released for Realtek Gigabit Ethernet
 # controllers with PCI-Express interface.
 #
-# Copyright(c) 2020 Realtek Semiconductor Corp. All rights reserved.
+# Copyright(c) 2021 Realtek Semiconductor Corp. All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -338,18 +338,50 @@ error_out:
 }
 EXPORT_SYMBOL(rtl8125_request_ring);
 
+static int rtl8125_all_ring_released(struct rtl8125_private *tp)
+{
+        int i;
+        int released = 0;
+
+        for (i = tp->num_tx_rings; i < tp->HwSuppNumTxQueues; i++) {
+                struct rtl8125_ring *ring = &tp->lib_tx_ring[i];
+                if (ring->allocated)
+                        goto exit;
+        }
+
+        for (i = tp->num_rx_rings; i < tp->HwSuppNumRxQueues; i++) {
+                struct rtl8125_ring *ring = &tp->lib_rx_ring[i];
+                if (ring->allocated)
+                        goto exit;
+        }
+
+        released = 1;
+
+exit:
+        return released;
+}
+
 void rtl8125_release_ring(struct rtl8125_ring *ring)
 {
+        struct rtl8125_private *tp;
+
         if (!ring)
                 return;
 
+        tp = ring->private;
+
         rtl8125_free_ring_mem(ring);
         rtl8125_put_ring(ring);
+        if (rtl8125_all_ring_released(tp)) {
+                struct net_device *dev = tp->dev;
+                if (netif_running(dev)) {
+                        rtl8125_close(dev);
+                        rtl8125_open(dev);
+                } else
+                        rtl8125_enable_hw_linkchg_interrupt(tp);
+        }
 }
 EXPORT_SYMBOL(rtl8125_release_ring);
-
-void
-rtl8125_hw_config(struct net_device *dev);
 
 int rtl8125_enable_ring(struct rtl8125_ring *ring)
 {

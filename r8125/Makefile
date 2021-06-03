@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=r8125
-PKG_RELEASE=2
+PKG_RELEASE=3
 
 PKG_MAINTAINER:=Yibai Zhang <xm1994@gmail.com>
 PKG_BUILD_PARALLEL:=1
