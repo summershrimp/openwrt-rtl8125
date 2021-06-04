@@ -32,6 +32,7 @@
  *  US6,570,884, US6,115,776, and US6,327,625.
  ***********************************************************************************/
 
+#include <linux/version.h>
 #include <linux/delay.h>
 #include <linux/firmware.h>
 
@@ -61,6 +62,9 @@ struct fw_info {
         u8	chksum;
 } __packed;
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,16,0)
+#define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
+#endif
 #define FW_OPCODE_SIZE sizeof_field(struct rtl8125_fw_phy_action, code[0])
 
 static bool rtl8125_fw_format_ok(struct rtl8125_fw *rtl_fw)

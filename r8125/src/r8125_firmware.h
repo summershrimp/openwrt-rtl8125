@@ -65,28 +65,4 @@ int rtl8125_fw_request_firmware(struct rtl8125_fw *rtl_fw);
 void rtl8125_fw_release_firmware(struct rtl8125_fw *rtl_fw);
 void rtl8125_fw_write_firmware(struct rtl8125_private *tp, struct rtl8125_fw *rtl_fw);
 
-/*
-static int rtl8125_hidden_request_firmware(const struct tg3_firmware **rtl8125_fw,
-				       const char *name)
-{
-	*fw = 0;
-
-	if (strcmp(name, "tigon/tg3.bin") == 0)
-		*fw = &tg3_5701_fw;
-	else if (strcmp(name, "tigon/tg357766.bin") == 0)
-		*fw = &tg3_57766_fw;
-#if TG3_TSO_SUPPORT != 0
-	else if (strcmp(name, "tigon/tg3_tso.bin") == 0)
-		*fw = &tg3_lgcy_tso_fw;
-	else if (strcmp(name, "tigon/tg3_tso5.bin") == 0)
-		*fw = &tg3_5705_tso_fw;
-#endif
-
-	return *fw ? 0 : -EINVAL;
-}
-
-#define rtl8125_priv_request_firmware(x, y, z) rtl8125_hidden_request_firmware((x), (y))
-#define rtl8125_priv_release_firmware(x)
-*/
-
 #endif /* _LINUX_rtl8125_FIRMWARE_H */
