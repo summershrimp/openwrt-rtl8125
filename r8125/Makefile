@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=r8125
-PKG_RELEASE=3
+PKG_RELEASE=9.006.04
 
 PKG_MAINTAINER:=Yibai Zhang <xm1994@gmail.com>
 PKG_BUILD_PARALLEL:=1
@@ -11,7 +11,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define KernelPackage/r8125
   SUBMENU:=Network Devices
-  TITLE:=Driver for Realtek 8125 series devices
+  TITLE:=Driver for Realtek RTL8125 series devices
   DEPENDS:=@PCI_SUPPORT +kmod-mii +kmod-phy-realtek
   FILES:=\
 	$(PKG_BUILD_DIR)/r8125.ko
